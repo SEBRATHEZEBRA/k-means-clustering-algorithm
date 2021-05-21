@@ -92,15 +92,41 @@ def setCentroids():
     centroids[2][1] = avg3y
 
 
+# Print all the information about the clusters.
+def printClusters(x):
+
+    print("Iteration", x)
+    print("----------------------------------------------------------------")
+
+    for i in range(len(centroids)):
+
+        print("Cluster", i + 1, ":", end=" ")
+
+        for j in range(len(dataset)):
+            if dataset[j][2] == i + 1:
+                if j == 0:
+                    print(j + 1, end=" ", sep="")
+                else:
+                    print(", ", j + 1, sep="", end=" ")
+
+        if i == 2:
+            print("\nCentroid: (", centroids[i][0], ", ", centroids[i][1], ")", sep="")
+        else:
+            print("\nCentroid: (", centroids[i][0], ", ", centroids[i][1], ")", "\n", sep="")
+
+    print("----------------------------------------------------------------")
+
+
+
 # Performs the K-Means algorithm on the dataset.
 def k_means():
 
     clusters = 3
+    a = 0
 
     # Initializing data into random clusters.
     for i in range(len(dataset)):
         dataset[i][2] = random.randint(1, clusters)
-        print(dataset[i])
 
     # Setting the original centroids.
     centroids.append(dataset[0])
@@ -118,16 +144,43 @@ def k_means():
         closest = getClosestCentroid(dataset[i][0], dataset[i][1])
         dataset[i][2] = closest
 
+    printClusters(a)
+    a += 1
     setCentroids()
 
-    for i in range(len(centroids)):
-        print(centroids[i])
+    prevCents = []
+    prevCents.append(centroids[0])
+    prevCents.append(centroids[1])
+    prevCents.append(centroids[2])
+
+    printClusters(a)
+
+    x = 0
+    while (True):
+        if x > 0 and centroids[0][0] == prevCents[0][0] and centroids[0][1] == prevCents[0][1] and centroids[1][0] == prevCents[1][0] and centroids[1][1] == prevCents[1][1]:
+            break
+
+        # Calculating the closet centroid for each point in the dataset.
+        closest = -1
+        for i in range(len(dataset)):
+            closest = getClosestCentroid(dataset[i][0], dataset[i][1])
+            dataset[i][2] = closest
+
+        a += 1
+        setCentroids()
+        printClusters(a)
+
+        prevCents[0] = centroids[0]
+        prevCents[1] = centroids[1]
+        prevCents[2] = centroids[2]
+        x += 1
 
 
 # The main method for the program.
 def main():
 
-    print("Hello")
+    print("----------------------------------------------------------------")
+    print("K-Means Clustering Algorithm")
     print("----------------------------------------------------------------")
 
     k_means()
