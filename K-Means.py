@@ -104,18 +104,21 @@ def printClusters(x):
     print("----------------------------------------------------------------")
 
     for i in range(len(centroids)):
-
-        print("Cluster", i + 1, ":", end=" ")
+        first = True
+        print("Cluster ", i + 1, ":", end=" ", sep="")
 
         for j in range(len(dataset)):
-            if dataset[j][2] == i + 1:
-                print(j + 1, " -> (", dataset[j][0], ",", dataset[j][1], ") ", end=" ", sep="")
+            if dataset[j][2] == i + 1 and first:
+                first = False
+                print(j + 1, end="", sep="")
+            elif dataset[j][2] == i + 1:
+                print(", ", j + 1, end="", sep="")
 
 
         if i == 2:
-            print("\nCentroid: (", centroids[i][0], ", ", centroids[i][1], ")", sep="")
+            print("\nCentroid: (", round(centroids[i][0], 2), ", ", round(centroids[i][1], 2), ")", sep="")
         else:
-            print("\nCentroid: (", centroids[i][0], ", ", centroids[i][1], ")", "\n", sep="")
+            print("\nCentroid: (", round(centroids[i][0], 2), ", ", round(centroids[i][1], 2), ")", "\n", sep="")
 
     print("----------------------------------------------------------------")
 
@@ -142,21 +145,25 @@ def k_means():
         closest = getClosestCentroid(dataset[i][0], dataset[i][1])
         dataset[i][2] = closest
 
+    cent1 = []
+    cent2 = []
+    cent3 = []
+
+    cent1.append([centroids[0][0], centroids[0][1], 1])
+    cent2.append([centroids[1][0], centroids[1][1], 2])
+    cent3.append([centroids[2][0], centroids[2][1], 3])
+
     printClusters(a)
+
     a += 1
     setCentroids()
-
-    prevCents = []
-    prevCents.append(centroids[0])
-    prevCents.append(centroids[1])
-    prevCents.append(centroids[2])
-
     printClusters(a)
-
 
     x = 0
     while (True):
-        if x > 0:# and centroids[0][0] == prevCents[0][0] and centroids[0][1] == prevCents[0][1] and centroids[1][0] == prevCents[1][0] and centroids[1][1] == prevCents[1][1] and centroids[2][0] == prevCents[2][1]:
+
+        # Convergence condition.
+        if x > 0 and cent1[0][0] == centroids[0][0] and cent1[0][1] == centroids[0][1] and cent2[0][0] == centroids[1][0] and cent2[0][1] == centroids[1][1] and cent3[0][0] == centroids[2][0] and cent3[0][1] == centroids[2][1]:
             break
 
         # Calculating the closet centroid for each point in the dataset.
@@ -165,13 +172,19 @@ def k_means():
             closest = getClosestCentroid(dataset[i][0], dataset[i][1])
             dataset[i][2] = closest
 
+        cent1[0][0] = centroids[0][0]
+        cent1[0][1] = centroids[0][1]
+
+        cent2[0][0] = centroids[1][0]
+        cent2[0][1] = centroids[1][1]
+
+        cent3[0][0] = centroids[2][0]
+        cent3[0][1] = centroids[2][1]
+
         a += 1
         setCentroids()
         printClusters(a)
 
-        prevCents[0] = centroids[0]
-        prevCents[1] = centroids[1]
-        prevCents[2] = centroids[2]
         x += 1
 
 
