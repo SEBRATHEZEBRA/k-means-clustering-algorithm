@@ -128,7 +128,7 @@ def printClusters(x):
 def k_means():
 
     clusters = 3
-    a = 0
+    a = 1
 
     # Initializing data into random clusters.
     for i in range(len(dataset)):
@@ -162,10 +162,6 @@ def k_means():
     x = 0
     while (True):
 
-        # Convergence condition.
-        if x > 0 and cent1[0][0] == centroids[0][0] and cent1[0][1] == centroids[0][1] and cent2[0][0] == centroids[1][0] and cent2[0][1] == centroids[1][1] and cent3[0][0] == centroids[2][0] and cent3[0][1] == centroids[2][1]:
-            break
-
         # Calculating the closet centroid for each point in the dataset.
         closest = -1
         for i in range(len(dataset)):
@@ -183,6 +179,11 @@ def k_means():
 
         a += 1
         setCentroids()
+
+        # Convergence condition.
+        if x > 0 and cent1[0][0] == centroids[0][0] and cent1[0][1] == centroids[0][1] and cent2[0][0] == centroids[1][0] and cent2[0][1] == centroids[1][1] and cent3[0][0] == centroids[2][0] and cent3[0][1] == centroids[2][1]:
+            break
+
         printClusters(a)
 
         x += 1
