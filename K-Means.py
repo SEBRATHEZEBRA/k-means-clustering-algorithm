@@ -17,6 +17,11 @@ dataset.append([6, 4, 0])
 dataset.append([1, 2, 0])
 dataset.append([4, 9, 0])
 
+# Initializing the original centroid values.
+centroids.append([2, 10, 1])
+centroids.append([5, 8, 2])
+centroids.append([1, 2, 3])
+
 
 # Calculates the euclidean distance between two points.
 def distance(x1, y1, x2, y2):
@@ -104,10 +109,8 @@ def printClusters(x):
 
         for j in range(len(dataset)):
             if dataset[j][2] == i + 1:
-                if j == 0:
-                    print(j + 1, end=" ", sep="")
-                else:
-                    print(", ", j + 1, sep="", end=" ")
+                print(j + 1, " -> (", dataset[j][0], ",", dataset[j][1], ") ", end=" ", sep="")
+
 
         if i == 2:
             print("\nCentroid: (", centroids[i][0], ", ", centroids[i][1], ")", sep="")
@@ -127,11 +130,6 @@ def k_means():
     # Initializing data into random clusters.
     for i in range(len(dataset)):
         dataset[i][2] = random.randint(1, clusters)
-
-    # Setting the original centroids.
-    centroids.append(dataset[0])
-    centroids.append(dataset[3])
-    centroids.append(dataset[6])
 
     # Changing the assigned clusters of the original centroids.
     dataset[0][2] = 1
@@ -155,9 +153,10 @@ def k_means():
 
     printClusters(a)
 
+
     x = 0
     while (True):
-        if x > 0 and centroids[0][0] == prevCents[0][0] and centroids[0][1] == prevCents[0][1] and centroids[1][0] == prevCents[1][0] and centroids[1][1] == prevCents[1][1]:
+        if x > 0:# and centroids[0][0] == prevCents[0][0] and centroids[0][1] == prevCents[0][1] and centroids[1][0] == prevCents[1][0] and centroids[1][1] == prevCents[1][1] and centroids[2][0] == prevCents[2][1]:
             break
 
         # Calculating the closet centroid for each point in the dataset.
